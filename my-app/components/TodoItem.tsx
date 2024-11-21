@@ -1,17 +1,30 @@
-import { View, Text, TouchableOpacity, StyleSheet , FlatList} from "react-native";
-import { ITodoItem } from "@/app/(tabs)/explore";
+import { View, Text, TouchableOpacity, StyleSheet , FlatList, TextInput} from "react-native";
 import { FontAwesome, MaterialCommunityIcons } from "@expo/vector-icons";
+import { ITodoItem } from "@/screens/HomeScreen";
+import React, { useState } from "react";
 
 interface ITodoItemProps {
     item: ITodoItem;
     handleChangeStatus: (item: ITodoItem) => void;
     handleDelete: (item: ITodoItem) => void;
-    handleEdit: (item: ITodoItem) => void;
+    handleEdit: (titleEdit: string, typeEdit: string, id: number) => void;
 
 }
 function ToDoItem(props: ITodoItemProps){
     const {item, handleChangeStatus, handleDelete, handleEdit} = props;
+    const [titleEdit, setTitleEdit] = useState<string>(item.title);
+    const [isEdit, setState] = useState(false);
+    const [typeEdit, setTypeEdit] = useState<string>(item.type);
+    const onPressEdit = () => {
+      if(isEdit){
+        handleEdit(titleEdit, typeEdit, item.id)
+        setState(false)
+      }
+      else{
+        setState(true)
+      }
 
+    };
     return (
       <View key={item.id} style={styles.task}>
       <View style={{ gap: 5 }}>
@@ -33,6 +46,10 @@ function ToDoItem(props: ITodoItemProps){
             <FontAwesome name="edit" size={24} color="#EDE66D" />
           </TouchableOpacity>
         )}
+        {
+
+        }
+
         <TouchableOpacity onPress={() => handleDelete(item)}>
           <FontAwesome name="trash-o" size={24} color="#ED786D" />
         </TouchableOpacity>
